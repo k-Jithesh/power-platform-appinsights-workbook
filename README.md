@@ -2,7 +2,7 @@
 
 Azure Workbook for Application Insights telemetry from Dynamics 365 CE model-driven apps and Power Pages. It answers the questions support, delivery and operations teams ask: is it slow, what is failing, who is affected, and can the data be trusted.
 
-**Version 1.4.3**
+**Version 1.4.4**
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
 
@@ -43,7 +43,7 @@ To update an existing workbook, open it, select Advanced editor, paste the new J
 
 ## Drill-down: click a row
 
-Ten grids are clickable. Clicking a row opens a detail panel directly below the grid, with the selected item in its header. Select another row to switch. On the operation and failing-operation grids, click the Overall row to hide the panel.
+Ten grids are clickable. Clicking a row opens a detail panel directly below the grid, with the selected item in its header. Select another row to switch. The location drill-down has no header, because the selected country stays highlighted in the grid above it. On the operation and failing-operation grids, click the Overall row to hide the panel.
 
 | Tab | Click | Panel shows |
 | --- | --- | --- |
@@ -103,11 +103,11 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 ## Validation status
 
 **Checked**
-- All 174 queries parse and run against Microsoft's public Application Insights demo instance.
+- All 173 queries parse and run against Microsoft's public Application Insights demo instance.
 - The drill-down panels were run with real selections on that data. The demo has no Dataverse form-load telemetry, so the load-based panels (User triage, location, forms) were tested on constructed sample rows with known answers.
 - The comparison, save and update, table, caller mapping, funnel, Power Pages page and abandonment, page-title merging and location logic were tested the same way, including the three location comparison charts against an independent calculation.
 - A pilot against a real export confirmed that states and cities are recorded and that the location grid, drill-down and comparison charts load in the portal.
-- The workbook structure was checked: every clickable grid exports a hidden key, has exactly one matching panel, and every panel query uses the selection. The ARM template carries the same content as the workbook.
+- The workbook structure was checked: every clickable grid exports a hidden key, has matching detail items that stay hidden until a row is clicked, and every one of them uses the selection. The ARM template carries the same content as the workbook.
 
 **Not yet checked**
 - Which ID each export feed records. Microsoft Learn describes the user ID differently on different pages, and the User triage list combines page loads and API requests by ID. If the two feeds use different IDs, the same person appears twice.
@@ -121,7 +121,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 ```python
 import json
 
-VERSION = "1.4.3"  # also update the version text inside the workbook JSON
+VERSION = "1.4.4"  # also update the version text inside the workbook JSON
 WB = "power-platform-appinsights-workbook.json"
 ARM = "power-platform-appinsights-workbook.arm.json"
 
@@ -142,6 +142,7 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## Version history
 
+- **1.4.4:** Pages & browser: the location drill-down no longer repeats the selected country in its own heading and table. The states and cities grid and the charts sit directly under the country grid and appear when a country is clicked.
 - **1.4.3:** Naming only. The "proof of concept" label is removed from the workbook title, the About text, the ARM template's default display name and this README. The validation status below still lists what has not been checked.
 - **1.4.2:** Naming only. The workbook title, the ARM template's default display name and the alerts template description now say Power Platform Application Insights instead of D365 Observability. The alerts template version label is aligned with the workbook (it still said 1.2.0).
 - **1.4.1:** The location comparison charts plot p95 load time instead of the median. The totals row under 25 latency, rate and lag charts is hidden. The ARM template version tag is corrected.
