@@ -1,0 +1,225 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "D365 observability alert rules, version 1.2.0. Creates four log alert rules on an Application Insights resource that receives the Dataverse export."
+  },
+  "parameters": {
+    "appInsightsId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Resource ID of the Application Insights resource that receives the Dataverse export."
+      }
+    },
+    "actionGroupId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Optional. Resource ID of an action group to notify. Leave empty to create the rules without notifications."
+      }
+    },
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "d365obs",
+      "metadata": {
+        "description": "Prefix for the rule names."
+      }
+    },
+    "enabled": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Whether the rules are enabled."
+      }
+    },
+    "throttleThreshold": {
+      "type": "int",
+      "defaultValue": 10,
+      "metadata": {
+        "description": "Alert when this many HTTP 429 responses occur in 15 minutes."
+      },
+      "minValue": 1
+    },
+    "failureRatePercent": {
+      "type": "int",
+      "defaultValue": 10,
+      "metadata": {
+        "description": "Alert when the failure rate is at or above this percentage in 15 minutes."
+      },
+      "minValue": 1,
+      "maxValue": 100
+    },
+    "minRequests": {
+      "type": "int",
+      "defaultValue": 200,
+      "metadata": {
+        "description": "Minimum requests in the window before the failure-rate and slow-response rules can fire."
+      },
+      "minValue": 1
+    },
+    "p95Milliseconds": {
+      "type": "int",
+      "defaultValue": 3000,
+      "metadata": {
+        "description": "Alert when p95 server duration is at or above this value (ms) over 30 minutes."
+      },
+      "minValue": 100
+    },
+    "noDataHours": {
+      "type": "int",
+      "defaultValue": 6,
+      "metadata": {
+        "description": "Alert when the Dataverse export delivers no requests for this many hours (1 to 24)."
+      },
+      "minValue": 1,
+      "maxValue": 24
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2022-06-15",
+      "name": "[concat(parameters('namePrefix'), '-throttling')]",
+      "location": "[resourceGroup().location]",
+      "kind": "LogAlert",
+      "properties": {
+        "displayName": "[concat(parameters('namePrefix'), ': Dataverse throttling (HTTP 429)')]",
+        "description": "HTTP 429 responses from Dataverse at or above the threshold in 15 minutes.",
+        "severity": 2,
+        "enabled": "[parameters('enabled')]",
+        "evaluationFrequency": "PT5M",
+        "windowSize": "PT15M",
+        "scopes": [
+          "[parameters('appInsightsId')]"
+        ],
+        "criteria": {
+          "allOf": [
+            {
+              "query": "[format('requests | where cloud_RoleInstance == \"CDS Data Export\" | where resultCode == \"429\" | summarize Throttled = count() | where Throttled >= {0}', parameters('throttleThreshold'))]",
+              "timeAggregation": "Count",
+              "operator": "GreaterThan",
+              "threshold": 0,
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": 1,
+                "minFailingPeriodsToAlert": 1
+              }
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": "[if(empty(parameters('actionGroupId')), json('[]'), createArray(parameters('actionGroupId')))]"
+        },
+        "skipQueryValidation": false
+      }
+    },
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2022-06-15",
+      "name": "[concat(parameters('namePrefix'), '-failure-rate')]",
+      "location": "[resourceGroup().location]",
+      "kind": "LogAlert",
+      "properties": {
+        "displayName": "[concat(parameters('namePrefix'), ': Dataverse failure rate')]",
+        "description": "Failure rate at or above the threshold, with enough requests to be meaningful.",
+        "severity": 2,
+        "enabled": "[parameters('enabled')]",
+        "evaluationFrequency": "PT15M",
+        "windowSize": "PT15M",
+        "scopes": [
+          "[parameters('appInsightsId')]"
+        ],
+        "criteria": {
+          "allOf": [
+            {
+              "query": "[format('requests | where cloud_RoleInstance == \"CDS Data Export\" | summarize Total = count(), Failed = countif(success == false) | extend FailurePct = round(100.0 * Failed / Total, 1) | where Total >= {0} and FailurePct >= {1}', parameters('minRequests'), parameters('failureRatePercent'))]",
+              "timeAggregation": "Count",
+              "operator": "GreaterThan",
+              "threshold": 0,
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": 1,
+                "minFailingPeriodsToAlert": 1
+              }
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": "[if(empty(parameters('actionGroupId')), json('[]'), createArray(parameters('actionGroupId')))]"
+        },
+        "skipQueryValidation": false
+      }
+    },
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2022-06-15",
+      "name": "[concat(parameters('namePrefix'), '-slow-p95')]",
+      "location": "[resourceGroup().location]",
+      "kind": "LogAlert",
+      "properties": {
+        "displayName": "[concat(parameters('namePrefix'), ': Dataverse slow responses')]",
+        "description": "p95 server duration at or above the threshold, with enough requests to be meaningful.",
+        "severity": 3,
+        "enabled": "[parameters('enabled')]",
+        "evaluationFrequency": "PT15M",
+        "windowSize": "PT30M",
+        "scopes": [
+          "[parameters('appInsightsId')]"
+        ],
+        "criteria": {
+          "allOf": [
+            {
+              "query": "[format('requests | where cloud_RoleInstance == \"CDS Data Export\" | summarize Total = count(), p95 = percentile(duration, 95) | where Total >= {0} and p95 >= {1}', parameters('minRequests'), parameters('p95Milliseconds'))]",
+              "timeAggregation": "Count",
+              "operator": "GreaterThan",
+              "threshold": 0,
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": 1,
+                "minFailingPeriodsToAlert": 1
+              }
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": "[if(empty(parameters('actionGroupId')), json('[]'), createArray(parameters('actionGroupId')))]"
+        },
+        "skipQueryValidation": false
+      }
+    },
+    {
+      "type": "Microsoft.Insights/scheduledQueryRules",
+      "apiVersion": "2022-06-15",
+      "name": "[concat(parameters('namePrefix'), '-export-silent')]",
+      "location": "[resourceGroup().location]",
+      "kind": "LogAlert",
+      "properties": {
+        "displayName": "[concat(parameters('namePrefix'), ': Dataverse export silent')]",
+        "description": "No Dataverse export requests have arrived for the configured number of hours. The export has a 24-hour delivery SLA, so keep the value realistic.",
+        "severity": 2,
+        "enabled": "[parameters('enabled')]",
+        "evaluationFrequency": "PT1H",
+        "windowSize": "P1D",
+        "scopes": [
+          "[parameters('appInsightsId')]"
+        ],
+        "criteria": {
+          "allOf": [
+            {
+              "query": "[format('requests | where cloud_RoleInstance == \"CDS Data Export\" | where timestamp > ago({0}h) | summarize Events = count() | where Events == 0', parameters('noDataHours'))]",
+              "timeAggregation": "Count",
+              "operator": "GreaterThan",
+              "threshold": 0,
+              "failingPeriods": {
+                "numberOfEvaluationPeriods": 1,
+                "minFailingPeriodsToAlert": 1
+              }
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": "[if(empty(parameters('actionGroupId')), json('[]'), createArray(parameters('actionGroupId')))]"
+        },
+        "skipQueryValidation": false
+      }
+    }
+  ]
+}
