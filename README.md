@@ -2,7 +2,7 @@
 
 Azure Workbook for Application Insights telemetry from Dynamics 365 CE model-driven apps and Power Pages. It answers the questions support, delivery and operations teams ask: is it slow, what is failing, who is affected, and can the data be trusted.
 
-**Version 1.4.1** | proof of concept
+**Version 1.4.2** | proof of concept
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
 
@@ -121,7 +121,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 ```python
 import json
 
-VERSION = "1.4.1"  # also update the version text inside the workbook JSON
+VERSION = "1.4.2"  # also update the version text inside the workbook JSON
 WB = "power-platform-appinsights-workbook.json"
 ARM = "power-platform-appinsights-workbook.arm.json"
 
@@ -142,6 +142,7 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## Version history
 
+- **1.4.2:** Naming only. The workbook title, the ARM template's default display name and the alerts template description now say Power Platform Application Insights instead of D365 Observability. The alerts template version label is aligned with the workbook (it still said 1.2.0).
 - **1.4.1:** The location comparison charts plot p95 load time instead of the median. The totals row under 25 latency, rate and lag charts is hidden. The ARM template version tag is corrected.
 - **1.4.0:** Pages & browser: the states and cities grid is clickable, with charts comparing the chosen state and city with the rest of the country and state.
 - **1.3.0 and 1.3.1:** Pages & browser: the location grid has one row per country, and clicking a country opens its states and cities. Cities are the finest level Application Insights records.
