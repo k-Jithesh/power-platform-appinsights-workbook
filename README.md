@@ -1,10 +1,35 @@
 # Power Platform Application Insights workbook
 
-Azure Workbook for Application Insights telemetry from Dynamics 365 CE model-driven apps and Power Pages. It answers the questions support, delivery and operations teams ask: is it slow, what is failing, who is affected, and can the data be trusted.
+Azure Monitor workbook for Application Insights telemetry from **Dynamics 365 Customer Engagement (D365 CE)** apps such as Sales, Customer Service and Field Service, other Power Apps **model-driven apps**, **Dataverse** and **Power Pages**. It answers the questions support, delivery and operations teams ask: is Dynamics 365 slow, what is failing, who is affected, and can the data be trusted.
 
 **Version 1.5.0**
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
+
+## Works with
+
+The workbook reads the telemetry that the Power Platform data export sends to Application Insights, so it applies to any app that produces it. Nothing in it is specific to one Dynamics 365 app, apart from the Conversations tab. It reports by app module and by table, so you can see which app is slow.
+
+| Area | What you get | What it needs |
+| --- | --- | --- |
+| Dynamics 365 Sales, Field Service and other customer engagement apps | Form, view and dashboard load times by table and app module (for example Account, Contact, Lead, Opportunity and Case, wherever they are used), save and update performance, server operations, failures and throttling, plug-ins, and per-user triage | Dataverse diagnostics and performance export |
+| Dynamics 365 Customer Service | Everything above, plus the Conversations tab: routing and conversation lifecycle events over time and by queue | Dynamics Customer Service export and conversation diagnostics |
+| Custom Power Apps model-driven apps | The same views as the apps above | Dataverse diagnostics and performance export |
+| Power Pages | Page views, load time, browsers, locations, calls and JavaScript errors, a visitor funnel and abandoned pages | Application Insights JavaScript snippet on the site; Dataverse export for the server side |
+| Power Automate | Cloud flow runs, failures, duration, and failing triggers and actions | Power Automate export |
+| Custom integrations | Requests, p95 and failures by service, and outbound calls | Custom telemetry (for example OpenTelemetry) in the same Application Insights resource |
+
+## Questions this answers
+
+- Why is Dynamics 365 slow for some users, and is it only them? See **User triage**.
+- Which forms, views and tables are slow to load in a model-driven app? See **Forms & views**.
+- Is the slowness in the browser, the network, the server, a plug-in or an integration? See **Pages & browser**, **Plug-ins & dependencies** and **Integrations**.
+- Are Dataverse API calls failing or being throttled (HTTP 429), and who is making them? See **Errors & throttling** and **Callers**.
+- Is the slowness regional? See the country, state and city view on **Pages & browser**.
+- How is a Power Pages portal performing, and where do visitors drop off? See **Power Pages**.
+- Which Power Automate cloud flows fail or run slowly? See **Power Automate**.
+- Are Customer Service conversations being routed and handled? See **Conversations**.
+- Can I trust this data right now? See **Export health**.
 
 ## What you need
 
@@ -115,6 +140,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 - Which ID each export feed records. Microsoft Learn describes the user ID differently on different pages, and the User triage list combines page loads and API requests by ID. If the two feeds use different IDs, the same person appears twice.
 - That the totals row is hidden on the 25 latency charts, that the state and city selection and the State filter reset when another country is chosen (if not, the charts ask for a new row and the grid can show nothing until you pick All), and that the download to Excel and Open in Logs buttons appear on the States and cities grid.
 - The Power Pages tab against a real site, and deployment of the alerts template.
+- Each Dynamics 365 app (Sales, Customer Service, Field Service) against its own real export. The workbook reads telemetry shared by all model-driven apps, so it should apply, but this has not been confirmed app by app.
 
 ## Maintaining this repository
 
