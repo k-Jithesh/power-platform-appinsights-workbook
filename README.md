@@ -31,12 +31,83 @@ The workbook reads the telemetry that the Power Platform data export sends to Ap
 - Are Customer Service conversations being routed and handled? See **Conversations**.
 - Can I trust this data right now? See **Export health**.
 
-## What you need
+## Prerequisites and setup
 
-- **Application Insights:** one workspace-based resource per environment, with local authentication enabled (the Dataverse export requires it).
-- **Dataverse export:** turn on the exports in the Power Platform admin center (Data export, App Insights tab). Dataverse diagnostics and performance feeds most tabs. Power Automate and Dynamics Customer Service have their own exports. Microsoft Learn lists managed environments and a premium Dataverse licence as prerequisites.
-- **Power Pages:** add the Application Insights JavaScript snippet to the site as a content snippet named Tracking Code. This is browser telemetry and is separate from the Dataverse export.
-- **Access:** Reader on the subscription and the Application Insights resource, so the pickers and queries work.
+The workbook only shows what you export, so set up the out-of-the-box Application Insights integrations first. Do this once for each Power Platform environment. The first data can take up to 24 hours to arrive.
+
+| Step | What to do | Where | What you need |
+| --- | --- | --- | --- |
+| 1 | Create a workspace-based Application Insights resource, one per Power Platform environment | Azure portal | An Azure subscription and permission to create resources |
+| 2 | Leave local authentication enabled on that resource | Application Insights resource | Microsoft Learn states the integration requires it |
+| 3 | Confirm the environment is a managed environment | Power Platform admin center | The export is supported for managed environments only |
+| 4 | Create a **Dataverse diagnostics and performance** export | Power Platform admin center | The admin roles and resource access listed below |
+| 5 | Optional: create **Power Automate** and **Dynamics Customer Service** exports | Power Platform admin center | Same as step 4 |
+| 6 | Power Pages only: add the Application Insights JavaScript snippet to the site | Power Pages management app | Edit access to the site |
+| 7 | Wait up to 24 hours, then open the workbook and check the **Export health** tab | Azure Monitor | Access to the resource, listed below |
+
+### 1. Create the Application Insights resource
+
+1. Sign in to the [Azure portal](https://portal.azure.com), select **Create a resource**, then **Monitoring & Diagnostics**, then **Application Insights**.
+2. Fill in the details and select **Review + create**. Use a workspace-based resource (classic resources are retired). If you do not choose a Log Analytics workspace, one is created for you.
+3. Use a separate resource for each Power Platform environment. Microsoft Learn warns that the out-of-the-box reports do not work correctly when one resource holds data from several environments.
+4. Leave local authentication enabled. Microsoft Learn states the integration requires it.
+
+Data ingestion and retention are billed through the Log Analytics workspace. See [Azure Monitor pricing](https://azure.microsoft.com/pricing/details/monitor/) before you turn on large exports.
+
+### 2. Create the exports in the Power Platform admin center
+
+1. Sign in to the [Power Platform admin center](https://admin.powerplatform.microsoft.com).
+2. Select **Manage**, then **Data export**, then the **App Insights** tab, then **New data export**.
+3. Enter a friendly name and select the data type from the table below. For **Power Automate**, choose whether to export cloud flow runs, triggers or actions. Select all three to fill the Power Automate tab.
+4. Choose the environment to export from, then **Next**.
+5. Choose the Azure subscription, resource group and Application Insights resource to export to, then **Next**.
+6. Review the details and select **Create**. Data starts arriving within 24 hours.
+
+| Export data type | Feeds these tabs |
+| --- | --- |
+| Dataverse diagnostics and performance | Overview, User triage, Forms & views, Pages & browser, Server operations, Callers, Errors & throttling, Plug-ins & dependencies, Export health, and the server side of Power Pages |
+| Power Automate | Power Automate |
+| Dynamics Customer Service | Conversations. You can create only one Customer Service export per environment. Also configure [conversation diagnostics](https://learn.microsoft.com/dynamics365/customer-service/administer/configure-conversation-diagnostics). |
+| Copilot Studio | Not used by this workbook |
+
+**Who can set this up.** Microsoft Learn lists these requirements. Without them the integration does not work.
+
+- The Power Platform administrator or Dynamics 365 administrator role at tenant level in Microsoft Entra ID, and the environment administrator or system administrator role in the Dataverse environment.
+- Contributor or Owner access to the Application Insights resource you export to.
+- A managed environment. For the Customer Service export, Learn also lists a Power Apps, Power Automate or Dynamics 365 licence with premium use rights.
+
+At the time of writing, Learn documents the Power Automate and Dynamics Customer Service exports as preview and not available in sovereign clouds (GCC, GCC High, DoD, 21Vianet). Check [Export data to Application Insights](https://learn.microsoft.com/power-platform/admin/set-up-export-application-insights) for the current position.
+
+### 3. Power Pages: add the Application Insights snippet
+
+Power Pages browser telemetry does not come from the export. It comes from a JavaScript snippet on the site.
+
+1. Copy the **JavaScript (Web) SDK Loader Script** from [Application Insights JavaScript SDK setup](https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk). Replace `YOUR_CONNECTION_STRING` with the connection string from your Application Insights resource's **Overview** pane.
+2. Open the [Power Pages management app](https://learn.microsoft.com/power-pages/configure/portal-management-app) and go to **Content Snippets**.
+3. Create a content snippet named **Tracking Code** with **Type** set to **Text** and the language left blank. Paste the script into **Value**.
+4. On sites that use the standard data model, use **Enable Traffic Analysis** in the Portal Management app instead. It creates the same **Tracking Code** snippet.
+
+The site can send this telemetry to the same Application Insights resource or a different one. The Power Pages tab lets you pick which. See [Set up telemetry monitoring](https://learn.microsoft.com/power-pages/go-live/telemetry-monitoring).
+
+### 4. Check that data is arriving
+
+- Open the workbook and look at the **Export health** tab. It shows delivery lag and whether each feed is Current, Delayed or Stale.
+- Or run these in the Application Insights **Logs** pane. Page loads from model-driven apps appear in `pageViews` and Dataverse requests in `requests`.
+
+```kusto
+pageViews | where timestamp > ago(1d) | summarize count()
+requests | where timestamp > ago(1d) | summarize count()
+```
+
+If nothing appears after 24 hours, check the following. A common cause is missing permissions when the export was set up.
+
+- The person who created the export had the roles listed above.
+- The export points at the Application Insights resource you are querying.
+
+### 5. Access to the workbook
+
+- **View:** Reader on the subscription and on the Application Insights resource, so the pickers and queries work.
+- **Save a copy:** you also need permission to write workbooks in the resource group, for example Workbook Contributor or Monitoring Contributor.
 
 ## Deploy
 
