@@ -2,7 +2,7 @@
 
 Azure Monitor workbook for Application Insights telemetry from **Dynamics 365 Customer Engagement (D365 CE)** apps such as Sales, Customer Service and Field Service, other Power Apps **model-driven apps**, **Dataverse** and **Power Pages**. It answers the questions support, delivery and operations teams ask: is Dynamics 365 slow, what is failing, who is affected, and can the data be trusted.
 
-**Version 1.7.1**
+**Version 1.7.2**
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
 
@@ -175,7 +175,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 - Storing IP addresses (`DisableIpMasking`) would not add a postcode. It would still be an estimate, and Microsoft recommends against it for privacy reasons.
 - If you need a site, suburb or postcode, it has to come from Dataverse, because the telemetry user ID is the Dataverse user or contact ID. That means joining a user-to-site list into the queries, which this workbook does not do.
 
-**Network latency ranking:** at the end of the country drill-down, a grid ranks the 15 busiest places (at least 5 loads from at least 3 users each, following the State filter). It shows the median network latency, which is the typical value and is not pulled up by a few very slow loads, as a bar with a band: **Fast** under 40 ms, **Moderate** 40 to 59 ms, **Slow** 60 ms or more. The first row is the typical latency for the whole country, as a reference. Only loads with a latency reading are counted, because not every page load reports one, so the load count can be lower than in the grid above. The bands are set in the query and the grid colours, so edit both to change them.
+**Network latency ranking:** at the end of the country drill-down, a grid ranks the 15 busiest places (at least 5 loads from at least 3 users each, following the State filter). It shows the median network latency, which is the typical value and is not pulled up by a few very slow loads, as a bar with a band: **Fast** under 40 ms, **Moderate** 40 to 59 ms, **Slow** 60 ms or more. The first row is the typical latency for the whole country, as a reference. Only loads with a latency reading are counted, because not every page load reports one, so the load count can be lower than in the grid above. **p95_latency_ms** beside it shows the slow tail, and the band uses the median only. The median is the better measure of a place's connection, because the latency Dataverse reports for each load is already a typical estimate, while the p95 of a small place is close to its single worst load. Use p95 for page load time, where the slow tail is what users notice. The bands are set in the query and the grid colours, so edit both to change them.
 
 **Filtering and sharing:** every grid has a download to Excel button, which exports the visible columns (hidden key columns are left out). Workbooks have no CSV option of their own, so save the Excel file as CSV from Excel if you need CSV. The States and cities grid also has a State filter (multi-select, most loads first), a search box and an Open in Logs button, where Export offers CSV. That grid lists the 100 busiest places, each with at least 5 loads from at least 3 users, so its export holds only those rows.
 
@@ -248,7 +248,7 @@ Place coordinates are derived from GeoNames data under [CC BY 4.0](https://creat
 ```python
 import json
 
-VERSION = "1.7.1"  # also update the version text inside the workbook JSON
+VERSION = "1.7.2"  # also update the version text inside the workbook JSON
 WB = "power-platform-appinsights-workbook.json"
 ARM = "power-platform-appinsights-workbook.arm.json"
 
@@ -269,6 +269,7 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## Version history
 
+- **1.7.2:** Pages & browser: a p95 network latency column beside the median in the latency ranking and in the **Places on the map** table. Bands and map colours stay on the median.
 - **1.7.1:** Pages & browser: smaller, slightly transparent bubbles on the state or city map, a **Places on the map** table with latitude, longitude and download to Excel, and a note that workbook maps cannot zoom.
 - **1.7.0:** Pages & browser: a world map of network latency by country, and a state or city map at the top of the country drill-down. The state and city map looks places up in a new place coordinates file (`data/place-coordinates.csv`, built from GeoNames under CC BY 4.0).
 - **1.6.0:** Pages & browser: a ranking of the median network latency at the busiest places in the selected country, with fast, moderate and slow bands and a typical row for the whole country. A download to Excel button on every grid (102 grids).
