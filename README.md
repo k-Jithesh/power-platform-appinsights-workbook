@@ -2,7 +2,7 @@
 
 Azure Monitor workbook for Application Insights telemetry from **Dynamics 365 Customer Engagement (D365 CE)** apps such as Sales, Customer Service and Field Service, other Power Apps **model-driven apps**, **Dataverse** and **Power Pages**. It answers the questions support, delivery and operations teams ask: is Dynamics 365 slow, what is failing, who is affected, and can the data be trusted.
 
-**Version 1.7.0**
+**Version 1.7.1**
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
 
@@ -202,6 +202,7 @@ What to expect:
 - **Country names:** a few names that Application Insights uses differ from the place file (for example Russian Federation and Korea (South)). The query maps the common ones. To add more, edit the alias list at the top of the map query.
 - **No data leaves your environment.** The query only reads the CSV file from its address. Nothing from your telemetry is sent to the file's host.
 - **Host your own copy for production.** The default address is this repository. Copy `data/place-coordinates.csv` to storage you control and paste its address into **Place coordinates file**. Azure Monitor reads it from the service, so the address must be reachable from the public internet without a firewall, and Microsoft documents a limit of 100 MB for this operator.
+- **The map cannot zoom.** Workbooks have no zoom or centre setting for maps, so the map always shows the whole world and a single country looks small. Microsoft documents pan and zoom, including zooming to the data by default, only for its Workbooks preview experience, which opens dashboard-style workbooks. To look closer, use the **Places on the map** table under the map. It lists each placed place with its latitude and longitude, and its download to Excel button gives a file that Excel 3D Maps or Power BI can zoom into.
 - **Map rendering needs Azure Maps support** in your cloud and tenant.
 
 Place coordinates are derived from GeoNames data under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). To refresh the file, run `python tools/build_place_coordinates.py`.
@@ -228,7 +229,7 @@ Place coordinates are derived from GeoNames data under [CC BY 4.0](https://creat
 ## Validation status
 
 **Checked**
-- All 176 queries parse and run against Microsoft's public Application Insights demo instance.
+- All 177 queries parse and run against Microsoft's public Application Insights demo instance.
 - The drill-down panels were run with real selections on that data. The demo has no Dataverse form-load telemetry, so the load-based panels (User triage, location, forms) were tested on constructed sample rows with known answers.
 - The comparison, save and update, table, caller mapping, funnel, Power Pages page and abandonment, page-title merging and location logic were tested the same way, including the three location comparison charts against an independent calculation.
 - A pilot against a real export confirmed that states and cities are recorded and that the location grid, drill-down and comparison charts load in the portal.
@@ -247,7 +248,7 @@ Place coordinates are derived from GeoNames data under [CC BY 4.0](https://creat
 ```python
 import json
 
-VERSION = "1.7.0"  # also update the version text inside the workbook JSON
+VERSION = "1.7.1"  # also update the version text inside the workbook JSON
 WB = "power-platform-appinsights-workbook.json"
 ARM = "power-platform-appinsights-workbook.arm.json"
 
@@ -268,6 +269,7 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## Version history
 
+- **1.7.1:** Pages & browser: smaller, slightly transparent bubbles on the state or city map, a **Places on the map** table with latitude, longitude and download to Excel, and a note that workbook maps cannot zoom.
 - **1.7.0:** Pages & browser: a world map of network latency by country, and a state or city map at the top of the country drill-down. The state and city map looks places up in a new place coordinates file (`data/place-coordinates.csv`, built from GeoNames under CC BY 4.0).
 - **1.6.0:** Pages & browser: a ranking of the median network latency at the busiest places in the selected country, with fast, moderate and slow bands and a typical row for the whole country. A download to Excel button on every grid (102 grids).
 - **1.5.0:** Pages & browser: a State filter above the States and cities grid, and download to Excel and Open in Logs buttons on that grid so it can be shared for investigation.

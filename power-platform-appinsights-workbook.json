@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# Power Platform Application Insights workbook\n**Version 1.7.0** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
+        "json": "# Power Platform Application Insights workbook\n**Version 1.7.1** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
       },
       "name": "text - intro"
     },
@@ -593,7 +593,7 @@
           {
             "type": 1,
             "content": {
-              "json": "### About this workbook\n**Version 1.7.0** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow. A map of its states or cities comes first. A world map above the country grid shows network latency by country.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
+              "json": "### About this workbook\n**Version 1.7.1** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow. A map of its states or cities comes first. A world map above the country grid shows network latency by country.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
             },
             "name": "text - about"
           }
@@ -4325,7 +4325,10 @@
                   "type": "heatmap",
                   "heatmapPalette": "greenRed",
                   "heatmapMin": 0
-                }
+                },
+                "minSize": 5,
+                "maxSize": 18,
+                "opacity": 0.7
               }
             },
             "name": "query - map-places",
@@ -4338,7 +4341,7 @@
           {
             "type": 1,
             "content": {
-              "json": "**About this map.** Application Insights does not record coordinates, so each place is looked up by name in a public place file (GeoNames, CC BY 4.0), whose address is in **Place coordinates file** above. A place is drawn only when its city name is found. **Placed %** shows how much of its traffic could be placed. A state is drawn at the middle of its busiest cities. Bubble size is page loads and colour is median network latency, green for low and red for high. Places with fewer than 5 loads or fewer than 3 users are hidden, and the State filter below does not apply to the map."
+              "json": "**About this map.** Application Insights does not record coordinates, so each place is looked up by name in a public place file (GeoNames, CC BY 4.0), whose address is in **Place coordinates file** above. A place is drawn only when its city name is found. **Placed %** shows how much of its traffic could be placed. A state is drawn at the middle of its busiest cities. Bubble size is page loads and colour is median network latency, green for low and red for high. Places with fewer than 5 loads or fewer than 3 users are hidden, and the State filter below does not apply to the map.\n\n**The map cannot zoom.** This workbook view always shows the whole world, so one country looks small. Use the table below, which lists every place on the map with its coordinates. Download it to Excel and open it in Excel 3D Maps or Power BI to zoom in on your data."
             },
             "conditionalVisibility": {
               "parameterName": "SelLocKey",
@@ -4346,6 +4349,89 @@
               "value": "*"
             },
             "name": "text - map-note"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let selCountry = base64_decode_tostring('{SelLocKey}');\nlet ck0 = trim(' ', replace_regex(tolower(selCountry), @'[^a-z0-9]+', ' '));\nlet aliases = datatable(Alias:string, Name:string)['netherlands', 'the netherlands', 'russian federation', 'russia', 'korea south', 'south korea', 'korea north', 'north korea', 'czech republic', 'czechia', 'macedonia', 'north macedonia', 'burma', 'myanmar', 'cote d ivoire', 'ivory coast', 'east timor', 'timor leste', 'swaziland', 'eswatini', 'cape verde', 'cabo verde', 'congo kinshasa', 'democratic republic of the congo', 'congo brazzaville', 'republic of the congo'];\nlet ck = coalesce(toscalar(aliases | where Alias == ck0 | project Name), ck0);\nlet geo = externaldata(Country:string, State:string, City:string, Lat:real, Lon:real, Pop:long)[h@'{GeoUrl}'] with(format='csv', ignoreFirstRecord=true)\n| where Country == ck;\nlet geoExact = geo | project StateKey = State, CityKey = City, LatS = Lat, LonS = Lon;\nlet geoByCity = geo | summarize arg_max(Pop, Lat, Lon) by CityKey = City | project CityKey, LatC = Lat, LonC = Lon;\nlet level = '{MapLevel}';\nlet rows = pageViews\n| where tostring(customDimensions.resourceProvider) != 'Cloud Flow' and iff('{Source}' == 'dataverse', cloud_RoleInstance == 'CDS Data Export', iff('{Source}' == 'custom', cloud_RoleInstance != 'CDS Data Export', true))\n| where iff(isempty(client_CountryOrRegion), '(country not recorded)', client_CountryOrRegion) == selCountry\n| extend Latency = todouble(customDimensions.warmLatency), StateName = iff(isempty(client_StateOrProvince), '(state not recorded)', client_StateOrProvince), CityName = iff(isempty(client_City), '(city not recorded)', client_City)\n| extend StateKey = trim(' ', replace_regex(tolower(client_StateOrProvince), @'[^a-z0-9]+', ' ')), CityKey = trim(' ', replace_regex(tolower(client_City), @'[^a-z0-9]+', ' '));\nlet located = rows\n| summarize by StateKey, CityKey\n| lookup kind=leftouter (geoExact) on StateKey, CityKey\n| lookup kind=leftouter (geoByCity) on CityKey\n| project StateKey, CityKey, PLat = coalesce(LatS, LatC), PLon = coalesce(LonS, LonC);\nrows\n| lookup kind=leftouter (located) on StateKey, CityKey\n| extend Place = iff(level == 'City', case(CityName startswith '(', strcat('Unknown city (', StateName, ')'), StateName startswith '(', CityName, strcat(CityName, ' (', StateName, ')')), StateName)\n| summarize Loads = count(), Users = dcountif(user_Id, isnotempty(user_Id)), Median_latency_ms = round(percentile(Latency, 50), 0), Median_load_ms = round(percentile(duration, 50), 0), Placed = countif(isnotnull(PLat)), Latitude = round(percentile(PLat, 50), 3), Longitude = round(percentile(PLon, 50), 3) by Place\n| where Loads >= 5 and Users >= 3 and isnotnull(Latitude)\n| extend ['Placed %'] = round(100.0 * Placed / Loads, 0)\n| order by Loads desc\n| take 300\n| project Place, Latitude, Longitude, Loads, Median_latency_ms, Median_load_ms, ['Placed %']",
+              "showQuery": false,
+              "size": 0,
+              "title": "Places on the map, with coordinates (download to Excel for Excel 3D Maps or Power BI)",
+              "noDataMessage": "No state or city in this country could be placed for this period.",
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "TimeRange",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "{AppInsights}"
+              ],
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Loads",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "palette": "green",
+                      "showIcon": true
+                    },
+                    "numberFormat": {
+                      "unit": 17,
+                      "options": {
+                        "style": "decimal",
+                        "maximumFractionDigits": 2
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "Median_latency_ms|Median_load_ms",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "palette": "blue",
+                      "showIcon": true
+                    },
+                    "numberFormat": {
+                      "unit": 23,
+                      "options": {
+                        "style": "decimal",
+                        "maximumFractionDigits": 2
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "Placed %",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "green",
+                      "showIcon": true
+                    },
+                    "numberFormat": {
+                      "unit": 17,
+                      "options": {
+                        "style": "decimal",
+                        "maximumFractionDigits": 2
+                      }
+                    }
+                  }
+                ],
+                "filter": true
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
+            },
+            "name": "query - map-places-table",
+            "conditionalVisibility": {
+              "parameterName": "SelLocKey",
+              "comparison": "isNotEqualTo",
+              "value": "*"
+            }
           },
           {
             "type": 9,
