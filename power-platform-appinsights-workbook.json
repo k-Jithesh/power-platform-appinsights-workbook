@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# Power Platform Application Insights workbook\n**Version 1.7.2** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
+        "json": "# Power Platform Application Insights workbook\n**Version 1.8.0** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
       },
       "name": "text - intro"
     },
@@ -593,7 +593,7 @@
           {
             "type": 1,
             "content": {
-              "json": "### About this workbook\n**Version 1.7.2** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow. A map of its states or cities comes first. A world map above the country grid shows network latency by country.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
+              "json": "### About this workbook\n**Version 1.8.0** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow. A map of its states or cities comes first. A world map above the country grid shows network latency by country. A honeycomb after the ranking shows the 40 busiest places as hexagons grouped by state.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
             },
             "name": "text - about"
           }
@@ -4242,7 +4242,7 @@
           {
             "type": 1,
             "content": {
-              "json": "**Click a country above to drill down** into its states and cities (the 100 busiest, each with at least 5 loads from at least 3 users) and how its p95 load time compares with the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. Use the State filter to narrow the grid, click a column heading to sort, or use the search box to find a place. Every grid has a download to Excel button, and this one also has an Open in Logs button, where Export offers CSV. A map of its states or cities comes first. A ranking at the bottom shows the median network latency at the busiest places. Select a different country to switch."
+              "json": "**Click a country above to drill down** into its states and cities (the 100 busiest, each with at least 5 loads from at least 3 users) and how its p95 load time compares with the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. Use the State filter to narrow the grid, click a column heading to sort, or use the search box to find a place. Every grid has a download to Excel button, and this one also has an Open in Logs button, where Export offers CSV. A map of its states or cities comes first. A ranking and a honeycomb at the bottom show the median network latency at the busiest places. Select a different country to switch."
             },
             "name": "text - location drill hint"
           },
@@ -4805,6 +4805,96 @@
               "exportToExcelOptions": "visible"
             },
             "name": "query - loc-d-latency",
+            "conditionalVisibility": {
+              "parameterName": "SelLocKey",
+              "comparison": "isNotEqualTo",
+              "value": "*"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let selCountry = base64_decode_tostring('{SelLocKey}');\npageViews\n| where tostring(customDimensions.resourceProvider) != 'Cloud Flow' and iff('{Source}' == 'dataverse', cloud_RoleInstance == 'CDS Data Export', iff('{Source}' == 'custom', cloud_RoleInstance != 'CDS Data Export', true))\n| where iff(isempty(client_CountryOrRegion), '(country not recorded)', client_CountryOrRegion) == selCountry\n| extend Latency = todouble(customDimensions.warmLatency), State = iff(isempty(client_StateOrProvince), '(state not recorded)', client_StateOrProvince), City = iff(isempty(client_City), '(city not recorded)', client_City)\n| where isnotnull(Latency) and Latency > 0\n| where '*' in ({LocState}) or base64_encode_tostring(State) in ({LocState})\n| summarize Loads = count(), Users = dcountif(user_Id, isnotempty(user_Id)), Median_latency_ms = round(percentile(Latency, 50), 0), p95_latency_ms = round(percentile(Latency, 95), 0) by State, City\n| where Loads >= 5 and Users >= 3\n| order by Loads desc, State asc, City asc\n| take 40\n| extend FullName = iff(City startswith '(', 'Unknown city', City)\n| extend Place = iff(strlen(FullName) > 16, strcat(substring(FullName, 0, 15), '\u2026'), FullName), Band = case(Median_latency_ms < 40, 'Fast', Median_latency_ms < 60, 'Moderate', 'Slow')\n| extend Id = strcat(State, ' | ', City), Detail = strcat('p95 ', tostring(toint(p95_latency_ms)), ' ms, ', case(Loads >= 1000, strcat(tostring(round(Loads / 1000.0, 1)), 'K'), tostring(Loads)), ' loads')\n| project Id, Place, State, Median_latency_ms, Band, Detail",
+              "showQuery": false,
+              "size": 3,
+              "title": "Latency honeycomb: each hexagon is a place, grouped by state. Colour is the band from the median network latency (green fast under 40 ms, yellow moderate 40 to 59 ms, red slow 60 ms or more)",
+              "noDataMessage": "No place in this country has at least 5 loads from at least 3 users with a latency reading in this period, with the State filter applied.",
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "TimeRange",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "{AppInsights}"
+              ],
+              "visualization": "graph",
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible",
+              "graphSettings": {
+                "type": 2,
+                "topContent": {
+                  "columnMatch": "Place",
+                  "formatter": 1
+                },
+                "centerContent": {
+                  "columnMatch": "Median_latency_ms",
+                  "formatter": 12,
+                  "formatOptions": {
+                    "palette": "none"
+                  },
+                  "numberFormat": {
+                    "unit": 23,
+                    "options": {
+                      "style": "decimal",
+                      "maximumFractionDigits": 0
+                    }
+                  }
+                },
+                "bottomContent": {
+                  "columnMatch": "Detail",
+                  "formatter": 1
+                },
+                "hivesContent": {
+                  "columnMatch": "State",
+                  "formatter": 1
+                },
+                "nodeIdField": "Id",
+                "graphOrientation": 3,
+                "showOrientationToggles": false,
+                "nodeSize": null,
+                "staticNodeSize": 150,
+                "colorSettings": {
+                  "nodeColorField": "Band",
+                  "type": 3,
+                  "thresholdsGrid": [
+                    {
+                      "operator": "==",
+                      "thresholdValue": "Fast",
+                      "representation": "green"
+                    },
+                    {
+                      "operator": "==",
+                      "thresholdValue": "Moderate",
+                      "representation": "yellow"
+                    },
+                    {
+                      "operator": "==",
+                      "thresholdValue": "Slow",
+                      "representation": "red"
+                    },
+                    {
+                      "operator": "Default",
+                      "thresholdValue": null
+                    }
+                  ]
+                },
+                "groupByField": "State",
+                "hivesMargin": 5
+              }
+            },
+            "name": "query - loc-d-honeycomb",
             "conditionalVisibility": {
               "parameterName": "SelLocKey",
               "comparison": "isNotEqualTo",
