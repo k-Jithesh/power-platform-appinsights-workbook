@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "# Power Platform Application Insights workbook\n**Version 1.5.0** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
+        "json": "# Power Platform Application Insights workbook\n**Version 1.6.0** | built 30 Oct 2026 | see **About this workbook** at the bottom of the Overview tab for what each tab does.\n\nPick the **Subscription**, **Resource group** and **Application Insights** resource, then a time range. Use the tabs below to move between views. Built on the Power Platform to Application Insights data exports plus any custom telemetry in the same resource (for example OpenTelemetry from integration APIs)."
       },
       "name": "text - intro"
     },
@@ -406,7 +406,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - compare"
           },
@@ -558,7 +560,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - ingest-fresh",
             "customWidth": "50"
@@ -589,7 +593,7 @@
           {
             "type": 1,
             "content": {
-              "json": "### About this workbook\n**Version 1.5.0** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
+              "json": "### About this workbook\n**Version 1.6.0** (built 30 Oct 2026). Observability for Dynamics 365 and Power Platform on Application Insights, with no custom code.\n\n**What each tab does**\n- **Overview:** Is Dataverse healthy, is it getting better or worse, and can I trust the data?\n- **User triage:** What happened to this user, and is it only them?\n- **Forms & views:** Which tables are slow to open, save or update?\n- **Pages & browser:** Is it slow in the browser or on the server?\n- **Server operations:** Which Dataverse operations are slow, and how are they distributed?\n- **Callers:** Who is calling Dataverse, and who is behind the failures and throttling?\n- **Errors & throttling:** What is failing, how often, and why?\n- **Plug-ins & dependencies:** Are custom plug-ins or outbound calls slowing requests?\n- **Integrations:** How are our own integration APIs performing?\n- **Power Pages:** How is the portal performing, and where do visitors drop off?\n- **Power Automate:** Which cloud flows are failing or slow?\n- **Conversations:** Are Customer Service conversations being routed and handled?\n- **Export health:** Can the data be trusted right now?\n\n**Drill-down (click a row)**\n- **User triage, a user row:** Load time against everyone over time, the comparison with everyone by table and operation, a timeline of what the user did, their slowest loads and requests, what ran inside them, failures, exceptions, device and location.\n- **Forms & views, a table row in the form or view grid:** Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads.\n- **Forms & views, a row in the save and update grid:** Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them (plug-ins, SDK calls, external calls).\n- **Server operations, an operation row:** Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them.\n- **Callers, a caller row:** Trend, operations the caller uses, response codes, users, the raw user agent strings.\n- **Errors & throttling, a failing operation row:** Failure trend and rate, response codes, callers and users affected, failed dependencies and exceptions inside the failed requests, the latest failures.\n- **Pages & browser, a country row:** The country's states and cities (the 100 busiest, at least 5 loads from at least 3 users each) with median, average and p95 load time, and its p95 load time over time against the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow.\n- **Power Pages, a page row:** Views and load trend, where the load time goes, browsers, locations, previous and next page, calls and JavaScript errors from the page, the slowest loads.\n- **Power Pages, a row in either abandonment grid:** Where visitors came from, whether the page was slower when they left, failed calls and JavaScript errors in those sessions, the most recent abandoned sessions.\n\nVersion numbers follow major.minor.patch: a new tab or section raises the minor number, a query fix raises the patch number."
             },
             "name": "text - about"
           }
@@ -749,7 +753,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - user-finder"
           },
@@ -787,7 +793,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelUserKey-head"
                 },
@@ -980,7 +988,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-vs-tables"
                 },
@@ -1087,7 +1097,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-vs-ops"
                 },
@@ -1137,7 +1149,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-timeline"
                 },
@@ -1180,7 +1194,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-slow-loads"
                 },
@@ -1223,7 +1239,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-slow-calls"
                 },
@@ -1314,7 +1332,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-inside"
                 },
@@ -1357,7 +1377,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-fail",
                   "customWidth": "50"
@@ -1401,7 +1423,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-exc",
                   "customWidth": "50"
@@ -1461,7 +1485,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - usr-d-device"
                 }
@@ -1603,7 +1629,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - tbl-used",
             "customWidth": "50"
@@ -1626,7 +1654,9 @@
               "crossComponentResources": [
                 "{AppInsights}"
               ],
-              "visualization": "table"
+              "visualization": "table",
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - apdex-bands",
             "customWidth": "50"
@@ -1867,7 +1897,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - form-by-table"
           },
@@ -2001,7 +2033,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - view-by-table"
           },
@@ -2032,7 +2066,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelTableKey-head"
                 },
@@ -2254,7 +2290,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-forms",
                   "customWidth": "50"
@@ -2382,7 +2420,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-views",
                   "customWidth": "50"
@@ -2476,7 +2516,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-apps",
                   "customWidth": "50"
@@ -2536,7 +2578,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-geo",
                   "customWidth": "50"
@@ -2629,7 +2673,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-users"
                 },
@@ -2672,7 +2718,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - tbl-d-slowest"
                 }
@@ -2808,7 +2856,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - form-by-id",
             "customWidth": "50"
@@ -2936,7 +2986,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - view-by-id",
             "customWidth": "50"
@@ -3205,7 +3257,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - writes-grid"
           },
@@ -3243,7 +3297,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelWriteKey-head"
                 },
@@ -3429,7 +3485,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - wr-d-ops",
                   "customWidth": "50"
@@ -3521,7 +3579,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - wr-d-codes",
                   "customWidth": "50"
@@ -3630,7 +3690,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - wr-d-users"
                 },
@@ -3673,7 +3735,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - wr-d-slowest"
                 },
@@ -3764,7 +3828,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - wr-d-inside"
                 }
@@ -3864,7 +3930,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - writes-plugins"
           },
@@ -3923,7 +3991,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - page-types"
           }
@@ -4058,7 +4128,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - page-slowest"
           },
@@ -4124,14 +4196,16 @@
               },
               "exportFieldName": "LocKey",
               "exportParameterName": "SelLocKey",
-              "exportDefaultValue": "*"
+              "exportDefaultValue": "*",
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - page-location"
           },
           {
             "type": 1,
             "content": {
-              "json": "**Click a country above to drill down** into its states and cities (the 100 busiest, each with at least 5 loads from at least 3 users) and how its p95 load time compares with the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. Use the State filter to narrow the grid, click a column heading to sort, or use the search box to find a place. The grid has a download to Excel button and an Open in Logs button, where Export offers CSV. Select a different country to switch."
+              "json": "**Click a country above to drill down** into its states and cities (the 100 busiest, each with at least 5 loads from at least 3 users) and how its p95 load time compares with the rest of the world. Click a state and city row to compare that state with the rest of the country and that city with the rest of the state. Use the State filter to narrow the grid, click a column heading to sort, or use the search box to find a place. Every grid has a download to Excel button, and this one also has an Open in Logs button, where Export offers CSV. A ranking at the bottom shows the median network latency at the busiest places. Select a different country to switch."
             },
             "name": "text - location drill hint"
           },
@@ -4377,6 +4451,106 @@
             "customWidth": "50",
             "conditionalVisibility": {
               "parameterName": "SelPlaceKey",
+              "comparison": "isNotEqualTo",
+              "value": "*"
+            }
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "let selCountry = base64_decode_tostring('{SelLocKey}');\nlet cpv = pageViews\n| where tostring(customDimensions.resourceProvider) != 'Cloud Flow' and iff('{Source}' == 'dataverse', cloud_RoleInstance == 'CDS Data Export', iff('{Source}' == 'custom', cloud_RoleInstance != 'CDS Data Export', true))\n| where iff(isempty(client_CountryOrRegion), '(country not recorded)', client_CountryOrRegion) == selCountry\n| extend Latency = todouble(customDimensions.warmLatency)\n| where isnotnull(Latency) and Latency > 0;\nlet typical = toscalar(cpv | summarize round(percentile(Latency, 50), 0));\nlet typicalRow = print Order = 0, Place = 'Typical for the whole country', Median_latency_ms = typical, Loads = toscalar(cpv | count), State = '', City = '';\nlet places = cpv\n| where '*' in ({LocState}) or base64_encode_tostring(iff(isempty(client_StateOrProvince), '(state not recorded)', client_StateOrProvince)) in ({LocState})\n| summarize Loads = count(), Users = dcountif(user_Id, isnotempty(user_Id)), Median_latency_ms = round(percentile(Latency, 50), 0) by State = iff(isempty(client_StateOrProvince), '(state not recorded)', client_StateOrProvince), City = iff(isempty(client_City), '(city not recorded)', client_City)\n| where Loads >= 5 and Users >= 3\n| order by Loads desc, State asc, City asc\n| take 15\n| extend Place = case(not(City startswith '(') and not(State startswith '('), strcat(City, ' (', State, ')'), not(City startswith '('), City, not(State startswith '('), strcat('Unknown city (', State, ')'), 'Location not recorded')\n| project Order = 1, Place, Median_latency_ms, Loads, State, City;\nunion typicalRow, places\n| where Loads > 0\n| order by Order asc, Loads desc, State asc, City asc\n| extend Band = case(Median_latency_ms < 40, 'Fast', Median_latency_ms < 60, 'Moderate', 'Slow')\n| project Place, Median_latency_ms, Band, Loads",
+              "showQuery": false,
+              "size": 0,
+              "title": "Median network latency at the busiest places in this country (loads with a latency reading). Fast is under 40 ms, moderate 40 to 59 ms, slow 60 ms or more",
+              "noDataMessage": "No place in this country has at least 5 loads from at least 3 users with a latency reading in this period, with the State filter applied.",
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "TimeRange",
+              "queryType": 0,
+              "resourceType": "microsoft.insights/components",
+              "crossComponentResources": [
+                "{AppInsights}"
+              ],
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Median_latency_ms",
+                    "formatter": 3,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "blue",
+                      "showIcon": true
+                    },
+                    "numberFormat": {
+                      "unit": 23,
+                      "options": {
+                        "style": "decimal",
+                        "maximumFractionDigits": 2
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "Band",
+                    "formatter": 18,
+                    "formatOptions": {
+                      "thresholdsOptions": "colors",
+                      "thresholdsGrid": [
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Fast",
+                          "representation": "green",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Moderate",
+                          "representation": "yellow",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "==",
+                          "thresholdValue": "Slow",
+                          "representation": "red",
+                          "text": "{0}{1}"
+                        },
+                        {
+                          "operator": "Default",
+                          "thresholdValue": null,
+                          "representation": "gray",
+                          "text": "{0}{1}"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "columnMatch": "Loads",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "palette": "green",
+                      "showIcon": true
+                    },
+                    "numberFormat": {
+                      "unit": 17,
+                      "options": {
+                        "style": "decimal",
+                        "maximumFractionDigits": 2
+                      }
+                    }
+                  }
+                ],
+                "filter": true
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
+            },
+            "name": "query - loc-d-latency",
+            "conditionalVisibility": {
+              "parameterName": "SelLocKey",
               "comparison": "isNotEqualTo",
               "value": "*"
             }
@@ -4644,7 +4818,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - ops-grid"
           },
@@ -4682,7 +4858,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelOpKey-head"
                 },
@@ -4852,7 +5030,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ops-d-codes",
                   "customWidth": "50"
@@ -4944,7 +5124,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ops-d-callers",
                   "customWidth": "50"
@@ -5020,7 +5202,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ops-d-users",
                   "customWidth": "50"
@@ -5064,7 +5248,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ops-d-slowest"
                 },
@@ -5139,7 +5325,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ops-d-inside"
                 }
@@ -5208,7 +5396,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - ops-dist",
             "customWidth": "50"
@@ -5329,7 +5519,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - ops-diag"
           }
@@ -5498,7 +5690,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - callers-grid"
           },
@@ -5536,7 +5730,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelCallerKey-head"
                 },
@@ -5738,7 +5934,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - call-d-ops",
                   "customWidth": "50"
@@ -5814,7 +6012,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - call-d-codes",
                   "customWidth": "50"
@@ -5906,7 +6106,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - call-d-users",
                   "customWidth": "50"
@@ -5966,7 +6168,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - call-d-ua",
                   "customWidth": "50"
@@ -6104,7 +6308,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - callers-ops",
             "customWidth": "50"
@@ -6196,7 +6402,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - callers-users",
             "customWidth": "50"
@@ -6393,7 +6601,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - fail-grid"
           },
@@ -6431,7 +6641,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelFailKey-head"
                 },
@@ -6585,7 +6797,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-codes",
                   "customWidth": "50"
@@ -6677,7 +6891,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-callers",
                   "customWidth": "50"
@@ -6753,7 +6969,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-users"
                 },
@@ -6812,7 +7030,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-deps",
                   "customWidth": "50"
@@ -6856,7 +7076,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-exc",
                   "customWidth": "50"
@@ -6900,7 +7122,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - fail-d-recent"
                 }
@@ -6991,7 +7215,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - fail-codes",
             "customWidth": "50"
@@ -7080,7 +7306,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - failing-ops"
           },
@@ -7153,7 +7381,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - 429-detail",
             "customWidth": "50"
@@ -7227,7 +7457,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - exc-table",
             "customWidth": "60"
@@ -7332,7 +7564,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - plugin-table",
             "customWidth": "50"
@@ -7435,7 +7669,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - deps"
           }
@@ -7582,7 +7818,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - custom-requests"
           },
@@ -7657,7 +7895,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - custom-deps"
           }
@@ -7931,7 +8171,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-pages"
           },
@@ -7969,7 +8211,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelPageKey-head"
                 },
@@ -8107,7 +8351,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-stages",
                   "customWidth": "50"
@@ -8183,7 +8429,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-browsers",
                   "customWidth": "50"
@@ -8259,7 +8507,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-geo",
                   "customWidth": "50"
@@ -8320,7 +8570,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-prev",
                   "customWidth": "50"
@@ -8381,7 +8633,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-next",
                   "customWidth": "50"
@@ -8473,7 +8727,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-calls",
                   "customWidth": "50"
@@ -8533,7 +8789,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-js",
                   "customWidth": "50"
@@ -8577,7 +8835,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - pg-d-slowest"
                 }
@@ -8683,7 +8943,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-browsers",
             "customWidth": "50"
@@ -8759,7 +9021,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-geo",
             "customWidth": "50"
@@ -8897,7 +9161,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-calls"
           },
@@ -8956,7 +9222,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-js-errors"
           },
@@ -9114,7 +9382,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-abandon-top5",
             "customWidth": "50"
@@ -9198,7 +9468,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-abandon-pages",
             "customWidth": "50"
@@ -9237,7 +9509,9 @@
                     "crossComponentResources": [
                       "{AppInsights}"
                     ],
-                    "visualization": "table"
+                    "visualization": "table",
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - SelAbandonKey-head"
                 },
@@ -9341,7 +9615,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-slower",
                   "customWidth": "50"
@@ -9385,7 +9661,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-prev",
                   "customWidth": "50"
@@ -9445,7 +9723,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-browsers",
                   "customWidth": "50"
@@ -9505,7 +9785,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-calls",
                   "customWidth": "50"
@@ -9565,7 +9847,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-js",
                   "customWidth": "50"
@@ -9609,7 +9893,9 @@
                         }
                       ],
                       "filter": true
-                    }
+                    },
+                    "showExportToExcel": true,
+                    "exportToExcelOptions": "visible"
                   },
                   "name": "query - ab-d-recent"
                 },
@@ -9773,7 +10059,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pp-srv-ops"
           }
@@ -9981,7 +10269,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pa-flows"
           },
@@ -10024,7 +10314,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - pa-failing"
           }
@@ -10157,7 +10449,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - cd-routed",
             "customWidth": "50"
@@ -10217,7 +10511,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - cd-subscenarios"
           }
@@ -10359,7 +10655,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - health-feeds"
           },
@@ -10452,7 +10750,9 @@
                   }
                 ],
                 "filter": true
-              }
+              },
+              "showExportToExcel": true,
+              "exportToExcelOptions": "visible"
             },
             "name": "query - health-gaps"
           },
