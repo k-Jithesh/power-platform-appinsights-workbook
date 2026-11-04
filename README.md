@@ -2,7 +2,7 @@
 
 Azure Monitor workbook for Application Insights telemetry from **Dynamics 365 Customer Engagement (D365 CE)** apps such as Sales, Customer Service and Field Service, other Power Apps **model-driven apps**, **Dataverse** and **Power Pages**. It answers the questions support, delivery and operations teams ask: is Dynamics 365 slow, what is failing, who is affected, and can the data be trusted.
 
-**Version 1.6.0**
+**Version 1.7.0**
 
 There is no custom code to deploy. The queries follow the telemetry schemas published on Microsoft Learn for the Power Platform export to Application Insights.
 
@@ -126,7 +126,7 @@ To update an existing workbook, open it, select Advanced editor, paste the new J
 | **Overview** | Is Dataverse healthy, is it getting better or worse, and can I trust the data? | Latest period against the previous period with a Better or Worse assessment; health tiles (requests, success rate, p95, throttling, exceptions, page load); requests, failures and duration over time; data freshness. | Dataverse diagnostics and performance export |
 | **User triage** | A user says it is slow. What happened to them, and is it only them? | A searchable list of users with loads, slow loads, API requests, failures and throttling, worst first. Click a user to compare them with everyone else on the same table and operation, and to see their timeline, slowest loads and calls, failures, exceptions, device and location. | Dataverse diagnostics and performance export |
 | **Forms & views** | Which tables are slow to open, save or update? | Form and view load Apdex by table, form ID and view ID (Satisfied, Tolerating, Frustrated); most-used tables; save and update performance by table as a server-side proxy; custom plug-in time per table. | Dataverse diagnostics and performance export |
-| **Pages & browser** | Is it slow in the browser or on the server? | Page load over time, browser request timing (time to first byte, stall, download), slowest pages by app and table, and load time and network latency by country with a drill-down to states and cities. | Dataverse diagnostics and performance export |
+| **Pages & browser** | Is it slow in the browser or on the server? | Page load over time, browser request timing (time to first byte, stall, download), slowest pages by app and table, and load time and network latency by country with a drill-down to states and cities, and maps of network latency by country and by state or city. | Dataverse diagnostics and performance export |
 | **Server operations** | Which Dataverse operations are slow? | Performance-style grid (p50, p95, p99, count, failures); duration distribution; busiest operations over time; filter by operation name. | Dataverse diagnostics and performance export |
 | **Callers** | Who is calling Dataverse, and who is behind the failures and throttling? | Requests, failures and HTTP 429 by caller type (browser, Power Automate, Power Pages, Postman, integrations) from the user agent; failing operations and top users per caller. | Dataverse diagnostics and performance export |
 | **Errors & throttling** | What is failing, how often, and why? | Failures-style grid; failures by response code; top failing operations over time; what drives failures; HTTP 429 throttling; exceptions; suggested alerts. | Dataverse diagnostics and performance export |
@@ -146,7 +146,7 @@ Ten grids are clickable. Clicking a row opens a detail panel directly below the 
 | User triage | A user row | Selected user and totals; load time against everyone else over time; load time by table and API duration by operation against everyone else; activity timeline; slowest loads and calls; what ran inside the slowest requests; failures; exceptions; device and location. |
 | Forms & views | A table row in the form or view grid | Forms and views by ID with Apdex, apps, locations, users with the most frustrating loads, the slowest loads. |
 | Forms & views | A row in the save and update grid | Trend by action, operations, response codes, users with the slowest saves, the slowest saves and what ran inside them. |
-| Pages & browser | A country row | The states and cities in that country (the 100 busiest, each with at least 5 loads from at least 3 users) with median, average and p95 load time and network latency, and the country's p95 load time over time against the rest of the world. A State filter above the grid narrows it to chosen states. A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow, against the typical latency for the whole country. |
+| Pages & browser | A country row | The states and cities in that country (the 100 busiest, each with at least 5 loads from at least 3 users) with median, average and p95 load time and network latency, and the country's p95 load time over time against the rest of the world. A State filter above the grid narrows it to chosen states. A map of its states or cities comes first (see Map view). A ranking at the end shows the median network latency at the 15 busiest places, banded fast, moderate or slow, against the typical latency for the whole country. |
 | Pages & browser | A state and city row in that grid | The state's p95 load time over time against the rest of the country, and the city's against the rest of the state. |
 | Server operations | An operation row | Requests and duration trend, response codes, callers, users, the slowest requests and what ran inside them. |
 | Callers | A caller row | Trend, operations the caller uses, response codes, users, the raw user agent strings. |
@@ -181,6 +181,31 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 
 **Reading the comparison charts:** each point is the p95 for one time bucket (one hour on a 24-hour range). A small city may have only a few loads in an hour, so its p95 is effectively its slowest single load and can spike without pointing to a wider problem. Check the Loads column or widen the time range before acting on a spike.
 
+## Map view
+
+Two maps show where in the world the network is slow. Bubble size is page loads and colour is the median network latency, green for low and red for high.
+
+- **World map:** above the country grid. It uses the built-in country map, so it needs nothing extra.
+- **State or city map:** at the top of the country drill-down, with a **Map detail** switch for states or cities.
+
+Application Insights does not record coordinates, so the state and city map looks each place up by name in a public place file, [`data/place-coordinates.csv`](data/place-coordinates.csv). The file has about 194,000 places with at least 500 people, built from [GeoNames](https://www.geonames.org/) (Creative Commons Attribution 4.0) by `tools/build_place_coordinates.py`. The query:
+
+1. matches the city name, using the state name as well when it matches, so the right Richmond or Quincy is chosen;
+2. falls back to the most populous place with that city name when the state is spelled differently;
+3. draws a state at the middle of its matched cities, which is usually its busiest city;
+4. reports **Placed %**, the share of that place's loads whose city could be found.
+
+What to expect:
+
+- **It is an approximation.** On a sample of real place names from the Application Insights demo instance, about three quarters of distinct places and states could be placed, and 30 of 31 Australian and New Zealand places. Names that differ from GeoNames, small suburbs of very large cities, and loads with no city are not drawn. They still count in the grids.
+- **Places with fewer than 5 loads or fewer than 3 users are hidden,** and the State filter does not apply to the map.
+- **Country names:** a few names that Application Insights uses differ from the place file (for example Russian Federation and Korea (South)). The query maps the common ones. To add more, edit the alias list at the top of the map query.
+- **No data leaves your environment.** The query only reads the CSV file from its address. Nothing from your telemetry is sent to the file's host.
+- **Host your own copy for production.** The default address is this repository. Copy `data/place-coordinates.csv` to storage you control and paste its address into **Place coordinates file**. Azure Monitor reads it from the service, so the address must be reachable from the public internet without a firewall, and Microsoft documents a limit of 100 MB for this operator.
+- **Map rendering needs Azure Maps support** in your cloud and tenant.
+
+Place coordinates are derived from GeoNames data under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). To refresh the file, run `python tools/build_place_coordinates.py`.
+
 ## Alert rules in the optional template
 
 | Rule | Fires when | Default |
@@ -203,7 +228,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 ## Validation status
 
 **Checked**
-- All 174 queries parse and run against Microsoft's public Application Insights demo instance.
+- All 176 queries parse and run against Microsoft's public Application Insights demo instance.
 - The drill-down panels were run with real selections on that data. The demo has no Dataverse form-load telemetry, so the load-based panels (User triage, location, forms) were tested on constructed sample rows with known answers.
 - The comparison, save and update, table, caller mapping, funnel, Power Pages page and abandonment, page-title merging and location logic were tested the same way, including the three location comparison charts against an independent calculation.
 - A pilot against a real export confirmed that states and cities are recorded and that the location grid, drill-down and comparison charts load in the portal.
@@ -211,7 +236,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 
 **Not yet checked**
 - Which ID each export feed records. Microsoft Learn describes the user ID differently on different pages, and the User triage list combines page loads and API requests by ID. If the two feeds use different IDs, the same person appears twice.
-- That the totals row is hidden on the 25 latency charts, that the state and city selection and the State filter reset when another country is chosen (if not, the charts ask for a new row and the grid can show nothing until you pick All), that the download to Excel button appears on every grid and Open in Logs on the States and cities grid, and how the latency ranking's bars and band colours render.
+- That the totals row is hidden on the 25 latency charts, that the state and city selection and the State filter reset when another country is chosen (if not, the charts ask for a new row and the grid can show nothing until you pick All), that the download to Excel button appears on every grid and Open in Logs on the States and cities grid, how the latency ranking's bars and band colours render, how the two maps render in the portal (bubble size, the green to red colour scale and Azure Maps availability), and that Azure Monitor can read the place coordinates file from your tenant.
 - The Power Pages tab against a real site, and deployment of the alerts template.
 - Each Dynamics 365 app (Sales, Customer Service, Field Service) against its own real export. The workbook reads telemetry shared by all model-driven apps, so it should apply, but this has not been confirmed app by app.
 
@@ -222,7 +247,7 @@ Location comes from the visitor's IP address when the telemetry arrives. Applica
 ```python
 import json
 
-VERSION = "1.6.0"  # also update the version text inside the workbook JSON
+VERSION = "1.7.0"  # also update the version text inside the workbook JSON
 WB = "power-platform-appinsights-workbook.json"
 ARM = "power-platform-appinsights-workbook.arm.json"
 
@@ -243,6 +268,7 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## Version history
 
+- **1.7.0:** Pages & browser: a world map of network latency by country, and a state or city map at the top of the country drill-down. The state and city map looks places up in a new place coordinates file (`data/place-coordinates.csv`, built from GeoNames under CC BY 4.0).
 - **1.6.0:** Pages & browser: a ranking of the median network latency at the busiest places in the selected country, with fast, moderate and slow bands and a typical row for the whole country. A download to Excel button on every grid (102 grids).
 - **1.5.0:** Pages & browser: a State filter above the States and cities grid, and download to Excel and Open in Logs buttons on that grid so it can be shared for investigation.
 - **1.4.4:** Pages & browser: the location drill-down no longer repeats the selected country in its own heading and table. The states and cities grid and the charts sit directly under the country grid and appear when a country is clicked.
@@ -259,4 +285,4 @@ Version numbers follow major.minor.patch: a new tab or section raises the minor 
 
 ## License
 
-GPL-3.0. See [LICENSE](LICENSE).
+GPL-3.0. See [LICENSE](LICENSE). The place coordinates file in `data/` is derived from [GeoNames](https://www.geonames.org/) data and is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
